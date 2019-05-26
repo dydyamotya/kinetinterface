@@ -34,7 +34,7 @@ class Interface():
             self.plot_graph()
 
     def plot_graph(self, save=None):
-        data = pd.read_csv(self.path_models + "spec.csv", index_col=0)
+        self.data = pd.read_csv(self.path_models + "spec.csv", index_col=0)
         ax = plt.gca()
         ax2 = ax.twinx()
         if self.log1:
@@ -42,18 +42,19 @@ class Interface():
         if self.log2:
             ax.set_yscale("log")
         iterator = iter(self.color_cycle)
-        for column in data.columns:
+        for column in self.data.columns:
             if column in self.linnames:
-                ax2.plot(data.index, data[column], label=column, **next(iterator))
+                ax2.plot(self.data.index, self.data[column], label=column, **next(iterator))
             elif column in self.lognames:
-                ax.plot(data.index, data[column], label=column, **next(iterator))
+                ax.plot(self.data.index, self.data[column], label=column, **next(iterator))
         ax.grid()
         locs = ax.xaxis.get_major_locator()()
         ax.xaxis.set_minor_locator(MultipleLocator((locs[1]-locs[0])/8))
         ax.tick_params(axis='x', which='minor', bottom=True, length=5)
         if not save is None:
             p, parts, subs, T = save
-            ax.text(0.5, 1.05, "p: {0:2.2e} атм, T: {1:4.0f} К, relation: [{5} {2} : {6} {3} : {7} {4}]".format(p, T, *parts, *subs),
+            text_to_write = " : ".join(["{} {}".format(sub, part) for part, sub in zip(parts, subs)])
+            ax.text(0.5, 1.05, "p: {0:2.2e} атм, T: {1:4.0f} К, relation: [{2}]".format(p, T, text_to_write),
                     transform=ax.transAxes,
                     verticalalignment='center',
                    horizontalalignment='center',
@@ -64,6 +65,8 @@ class Interface():
         ax2.legend(temp1+temp3, temp2+temp4)
         plt.tight_layout()
         if not save is None:
+            if not os.path.exists("./graphs/"):
+                os.mkdir("./graphs/")
             plt.savefig("./graphs/{1:3.2f}_{0:2.2f}_{2}_{3}_{4}.png".format(np.log10(p), T, *parts), dpi=200)
 
     def process_the_file(self):
