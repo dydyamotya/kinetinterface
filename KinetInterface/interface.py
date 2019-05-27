@@ -67,7 +67,7 @@ class Interface():
         if not save is None:
             if not os.path.exists("./graphs/"):
                 os.mkdir("./graphs/")
-            plt.savefig("./graphs/{1:3.2f}_{0:2.2f}_{2}_{3}_{4}.png".format(np.log10(p), T, *parts), dpi=200)
+            plt.savefig("./graphs/{1:3.2f}_{0:2.2f}_{2}.png".format(np.log10(p), T, parts), dpi=200)
 
     def process_the_file(self):
         if os.path.exists(self.path_models+"spec.csv"):
