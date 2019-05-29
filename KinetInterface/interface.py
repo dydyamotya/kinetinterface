@@ -26,7 +26,6 @@ class Interface():
         self.path_models = path_models
         self.parser = KinParser(self.path_kin, self.path_models)
     def full_way(self, p, parts, subs, T, t, save=False):
-        print(t)
         self.parser.create_new_kin_spec(p, parts, subs,T, t)
 
         self.process_the_file()

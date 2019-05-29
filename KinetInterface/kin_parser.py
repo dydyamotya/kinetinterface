@@ -39,7 +39,6 @@ class KinParser():
             c = 101325*p/1000/8.314/temperature*part/sum_
             itog_lines += format_subs(c, sub)
         itog_lines += self.middle_lines + format_temperatures(temperature) + self.last_lines + format_time(potolok) + self.archilast_lines
-        print(itog_lines)
         with open(self.path_m +"spec.kin", 'w') as fd:
             for line in itog_lines:
                 fd.write(line)
