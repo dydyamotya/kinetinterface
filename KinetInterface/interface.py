@@ -26,7 +26,9 @@ class Interface():
         self.path_models = path_models
         self.parser = KinParser(self.path_kin, self.path_models)
     def full_way(self, p, parts, subs, T, t, save=False):
+        print(t)
         self.parser.create_new_kin_spec(p, parts, subs,T, t)
+
         self.process_the_file()
         if save:
             self.plot_graph(save=(p, parts, subs, T))
@@ -44,9 +46,9 @@ class Interface():
         iterator = iter(self.color_cycle)
         for column in self.data.columns:
             if column in self.linnames:
-                ax2.plot(self.data.index, self.data[column], label=column, **next(iterator))
-            elif column in self.lognames:
                 ax.plot(self.data.index, self.data[column], label=column, **next(iterator))
+            elif column in self.lognames:
+                ax2.plot(self.data.index, self.data[column], label=column, **next(iterator))
         ax.grid()
         locs = ax.xaxis.get_major_locator()()
         ax.xaxis.set_minor_locator(MultipleLocator((locs[1]-locs[0])/8))
