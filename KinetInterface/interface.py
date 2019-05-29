@@ -38,9 +38,9 @@ class Interface():
         ax = plt.gca()
         ax2 = ax.twinx()
         if self.log1:
-            ax2.set_yscale("log")
-        if self.log2:
             ax.set_yscale("log")
+        if self.log2:
+            ax2.set_yscale("log")
         iterator = iter(self.color_cycle)
         for column in self.data.columns:
             if column in self.linnames:
